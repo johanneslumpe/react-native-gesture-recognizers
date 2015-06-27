@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { Component, View, PanResponder } from 'react-native';
+import React, { Component, View, Text, PanResponder, NativeModules } from 'react-native';
+const { UIManager } = NativeModules;
 
 export default BaseComponent => {
   return class extends Component {
@@ -15,8 +16,21 @@ export default BaseComponent => {
         absoluteChangeX: 0,
         absoluteChangeY: 0,
         changeX: 0,
-        changeY: 0
+        changeY: 0,
+        decoratedViewWidth: null,
+        decoratedViewHeight: null
       };
+    }
+
+    componentDidMount() {
+      setTimeout(() => {
+        UIManager.measure(React.findNodeHandle(this.refs.decorated), (x, y, w, h) => {
+          this.setState({
+            decoratedViewHeight: h,
+            decoratedViewWidth: w
+          });
+        });
+      }, 0);
     }
 
     componentWillMount() {
@@ -72,12 +86,25 @@ export default BaseComponent => {
         onPanBegin,
         onPan,
         onPanEnd,
+        panningDecoratorStyle,
         ...props
       } = this.props;
 
+      const state = {
+        decoratedViewWidth: width,
+        decoratedViewHeight: height,
+        ...rest
+      } = this.state;
+
+      const style = {
+        ...panningDecoratorStyle,
+        width,
+        height
+      };
+
       return (
-        <View {...this._panResponder.panHandlers}>
-          <BaseComponent {...props} {...this.state} />
+        <View {...this._panResponder.panHandlers} style={style}>
+          <BaseComponent ref="decorated" {...props} {...rest} />
         </View>
       );
     }
