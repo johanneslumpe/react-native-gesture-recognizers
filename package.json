@@ -4,7 +4,7 @@
   "description": "Gesture recognizer decorators for react-native",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "rm -rf lib && `npm bin`/babel src --out-dir lib"
   },
   "repository": {
     "type": "git",
