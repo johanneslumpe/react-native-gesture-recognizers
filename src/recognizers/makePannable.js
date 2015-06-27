@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component, View, Text, PanResponder, NativeModules } from 'react-native';
+import React, { Component, View, PanResponder, NativeModules } from 'react-native';
 const { UIManager } = NativeModules;
 
 export default BaseComponent => {
