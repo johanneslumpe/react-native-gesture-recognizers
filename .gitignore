@@ -1,8 +1,4 @@
-# OSX
-#
 .DS_Store
-
-# node.js
-#
-node_modules/
+node_modules
 npm-debug.log
+lib
