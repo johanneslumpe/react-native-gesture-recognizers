@@ -1,9 +1,17 @@
 'use strict';
 
-import React, { Component, View, PanResponder, NativeModules } from 'react-native';
-const { UIManager } = NativeModules;
+import React, { Component, View, PanResponder } from 'react-native';
 
-export default BaseComponent => {
+const initialState = {
+  absoluteChangeX: 0,
+  absoluteChangeY: 0,
+  changeX: 0,
+  changeY: 0
+};
+
+export default ({
+  setGestureState = true
+} = {}) => BaseComponent => {
   return class extends Component {
 
     constructor(props, context) {
@@ -11,26 +19,18 @@ export default BaseComponent => {
 
       this.lastX = 0;
       this.lastY = 0;
-
-      this.state = {
-        absoluteChangeX: 0,
-        absoluteChangeY: 0,
-        changeX: 0,
-        changeY: 0,
-        decoratedViewWidth: null,
-        decoratedViewHeight: null
-      };
+      this.state = initialState;
     }
 
-    componentDidMount() {
-      setTimeout(() => {
-        UIManager.measure(React.findNodeHandle(this.refs.decorated), (x, y, w, h) => {
-          this.setState({
-            decoratedViewHeight: h,
-            decoratedViewWidth: w
-          });
-        });
-      }, 0);
+    componentWillReceiveProps(nextProps) {
+      if (nextProps.resetPan) {
+        this.lastX = 0;
+        this.lastY = 0;
+
+        if (setGestureState) {
+          this.setState(initialState);
+        }
+      }
     }
 
     componentWillMount() {
@@ -56,16 +56,18 @@ export default BaseComponent => {
 
         onPanResponderMove: (evt, { dx, dy }) => {
           const { onPan } = this.props;
-          const newState = {
+          const panState = {
             absoluteChangeX: this.lastX + dx,
             absoluteChangeY: this.lastY + dy,
             changeX: dx,
             changeY: dy
           };
 
-          this.setState(newState);
+          onPan && onPan(panState);
 
-          onPan && onPan(newState);
+          if (setGestureState) {
+            this.setState(panState);
+          }
         },
 
         onPanResponderTerminationRequest: () => true,
@@ -86,25 +88,19 @@ export default BaseComponent => {
         onPanBegin,
         onPan,
         onPanEnd,
+        resetPan,
         panningDecoratorStyle,
         ...props
       } = this.props;
 
-      const state = {
-        decoratedViewWidth: width,
-        decoratedViewHeight: height,
-        ...rest
-      } = this.state;
-
       const style = {
         ...panningDecoratorStyle,
-        width,
-        height
+        alignSelf: 'flex-start'
       };
 
       return (
         <View {...this._panResponder.panHandlers} style={style}>
-          <BaseComponent ref="decorated" {...props} {...rest} />
+          <BaseComponent {...props} {...this.state} />
         </View>
       );
     }

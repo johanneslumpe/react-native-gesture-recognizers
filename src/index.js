@@ -1,3 +1,4 @@
 'use strict';
 
-export makePannable from './recognizers/makePannable';
+export pannable from './recognizers/pannable';
+export swipeable from './recognizers/swipeable';
