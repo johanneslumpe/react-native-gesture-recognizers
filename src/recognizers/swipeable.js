@@ -42,8 +42,11 @@ const swipeable = ({
       super(props, context);
 
       this.state = {
-        distance: 0,
-        velocity: 0
+        swipe: {
+          direction: null,
+          distance: 0,
+          velocity: 0
+        }
       };
 
       this.swipeDetected = false;
