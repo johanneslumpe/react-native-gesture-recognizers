@@ -22,7 +22,7 @@ export default ({
 } = {}) => BaseComponent => {
   return class extends Component {
 
-    static propTypes;
+    static propTypes = propTypes
 
     constructor(props, context) {
       super(props, context);
