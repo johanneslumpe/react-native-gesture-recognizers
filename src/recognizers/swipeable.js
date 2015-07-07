@@ -44,7 +44,7 @@ const swipeable = ({
      }
 
     componentWillMount() {
-      this._panResponder = PanResponder.create({
+      this.panResponder = PanResponder.create({
 
         onStartShouldSetPanResponder: (evt) => {
           return evt.nativeEvent.touches.length === 1;
@@ -112,9 +112,9 @@ const swipeable = ({
             };
 
             if (initialDetection) {
-              onSwipeBegin && onSwipeBegin(swipeState);
+              onSwipeBegin && onSwipeBegin(swipeState); // eslint-disable-line no-unused-expressions
             } else {
-              onSwipe && onSwipe(swipeState);
+              onSwipe && onSwipe(swipeState); // eslint-disable-line no-unused-expressions
             }
 
             if (setGestureState) {
@@ -134,7 +134,7 @@ const swipeable = ({
     handleTerminationAndRelease = () => {
       if (this.swipeDetected) {
         const { onSwipeEnd } = this.props;
-        onSwipeEnd && onSwipeEnd({
+        onSwipeEnd && onSwipeEnd({ // eslint-disable-line no-unused-expressions
           direction: this.swipeDirection
         });
       }
@@ -159,10 +159,10 @@ const swipeable = ({
         alignSelf: 'flex-start'
       };
 
-      const state = setGestureState ? state: null;
+      const state = setGestureState ? state : null;
 
       return (
-        <View {...this._panResponder.panHandlers} style={style}>
+        <View {...this.panResponder.panHandlers} style={style}>
           <BaseComponent {...props} {...state} />
         </View>
       );
@@ -170,6 +170,6 @@ const swipeable = ({
   };
 };
 
-swipeable.directions = directions
+swipeable.directions = directions;
 
 export default swipeable;

@@ -34,14 +34,14 @@ export default ({
     }
 
     componentWillMount() {
-      this._panResponder = PanResponder.create({
+      this.panResponder = PanResponder.create({
 
         onStartShouldSetPanResponder: ({ nativeEvent: { touches } }, { x0, y0 }) => {
           const shouldSet = touches.length === 1;
 
           if (shouldSet) {
             const { onPanBegin } = this.props;
-            onPanBegin && onPanBegin({
+            onPanBegin && onPanBegin({ // eslint-disable-line no-unused-expressions
               originX: x0,
               originY: y0
             });
@@ -63,7 +63,7 @@ export default ({
             changeY: dy
           };
 
-          onPan && onPan(panState);
+          onPan && onPan(panState); // eslint-disable-line no-unused-expressions
 
           if (setGestureState) {
             this.setState(panState);
@@ -80,7 +80,7 @@ export default ({
       const { onPanEnd } = this.props;
       this.lastX = this.state.absoluteChangeX;
       this.lastY = this.state.absoluteChangeY;
-      onPanEnd && onPanEnd();
+      onPanEnd && onPanEnd(); // eslint-disable-line no-unused-expressions
     }
 
     render() {
@@ -99,10 +99,10 @@ export default ({
       };
 
       return (
-        <View {...this._panResponder.panHandlers} style={style}>
+        <View {...this.panResponder.panHandlers} style={style}>
           <BaseComponent {...props} {...this.state} />
         </View>
       );
     }
   };
-}
+};
