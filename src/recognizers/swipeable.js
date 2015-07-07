@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component, View, PanResponder } from 'react-native';
+import React, { PropTypes, Component, View, PanResponder } from 'react-native';
 import isValidSwipe from '../utils/isValidSwipe';
 
 const directions = {
@@ -8,6 +8,13 @@ const directions = {
   SWIPE_DOWN: 'SWIPE_DOWN',
   SWIPE_LEFT: 'SWIPE_LEFT',
   SWIPE_RIGHT: 'SWIPE_RIGHT'
+};
+
+const propTypes = {
+  onSwipeBegin: PropTypes.func,
+  onSwipe: PropTypes.func,
+  onSwipeEnd: PropTypes.func,
+  swipeDecoratorStyle: PropTypes.object
 };
 
 const swipeable = ({
@@ -28,6 +35,8 @@ const swipeable = ({
   const checkVertical = vertical || (up || down);
 
   return class extends Component {
+
+    static propTypes = propTypes;
 
     constructor(props, context) {
       super(props, context);

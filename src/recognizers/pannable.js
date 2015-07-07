@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component, View, PanResponder } from 'react-native';
+import React, { PropTypes, Component, View, PanResponder } from 'react-native';
 
 const initialState = {
   absoluteChangeX: 0,
@@ -9,10 +9,20 @@ const initialState = {
   changeY: 0
 };
 
+const propTypes = {
+  onPanBegin: PropTypes.func,
+  onPan: PropTypes.func,
+  onPanEnd: PropTypes.func,
+  resetPan: PropTypes.bool,
+  panningDecoratorStyle: PropTypes.object
+};
+
 export default ({
   setGestureState = true
 } = {}) => BaseComponent => {
   return class extends Component {
+
+    static propTypes;
 
     constructor(props, context) {
       super(props, context);
