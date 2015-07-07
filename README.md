@@ -43,7 +43,9 @@ class TransformOnPan extends Component {
     const { transform } = this.state;
 
     return (
-      // we transform the decorator instead of the decorated view, so there won't be any issues with ghost panning, due to the wrapping view staying in place and receiving touches
+      // we transform the decorator instead of the decorated view,
+      // so there won't be any issues with ghost panning,
+      // due to the wrapping view staying in place and receiving touches
       <PanMe
         onPan={this.onPan}
         panDecoratorStyle={{transform}} />
