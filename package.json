@@ -4,7 +4,7 @@
   "description": "Gesture recognizer decorators for react-native",
   "main": "lib/index.js",
   "scripts": {
-    "prepublish": "rm -rf lib && `npm bin`/babel src --out-dir lib"
+    "prepublish": "`npm bin`/eslint src && rm -rf lib && `npm bin`/babel src --out-dir lib"
   },
   "repository": {
     "type": "git",
