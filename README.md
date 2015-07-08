@@ -2,9 +2,9 @@
 
 React Native gesture recognizer decorators. Just decorate your component and easily respond to pans and swipes!
 
-## Basic example
+## Basic panning example
 ```javascript
-import React, { Component, StyleSheet, Text, View } from 'react-native';
+import React, { Component, Text, View } from 'react-native';
 import { pannable } from 'react-native-gesture-recognizers';
 
 @pannable({
@@ -53,6 +53,94 @@ class TransformOnPan extends Component {
   }
 }
 ```
+![pan example](http://lum.pe/react-native-gesture-recognizers-panning.gif)
+
+## Basic swipe example
+```javascript
+import React, { Component, Text, View, LayoutAnimation } from 'react-native';
+import { swipeable } from 'react-native-gesture-recognizers';
+const { directions: { SWIPE_UP, SWIPE_LEFT, SWIPE_DOWN, SWIPE_RIGHT } } = swipeable;
+
+@swipeable({
+  horizontal:true,
+  vertical: true,
+  continuous: false,
+  initialVelocityThreshold: 0.7
+})
+class SwipeMe {
+
+  render() {
+    const { swipe: { direction } } = this.props;
+    return (
+      <View style={{
+        width:250,
+        height:250,
+        alignItems: 'center',
+        justifyContent: 'center'}}>
+        {!direction ? <Text>Swipe me!</Text> : <Text style={{fontWeight:'700'}}>{direction}!</Text>}
+      </View>
+    );
+  }
+
+}
+
+class TransformOnSwipe extends Component {
+
+  constructor(props, context) {
+    super(props, context);
+    this.state = {
+      color: 'yellow',
+      x: 0,
+      y: 0,
+    }
+  }
+
+  onSwipeBegin = ({ direction, distance, velocity }) => {
+    let { x, y, color } = this.state;
+    // x and y values are hardcoded for an iphone6 screen
+    switch (direction) {
+      case SWIPE_LEFT:
+        x = 0;
+        color = 'yellow';
+        break;
+      case SWIPE_RIGHT:
+        x = 125;
+        color = 'blue';
+        break;
+      case SWIPE_UP:
+        y = 0;
+        color = 'green';
+        break;
+      case SWIPE_DOWN:
+        y = 417;
+        color = 'purple';
+        break;
+    }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+
+    this.setState({
+      x, y, color
+    });
+  }
+
+  render() {
+    const { transform, reset, color, x ,y } = this.state;
+
+    return (
+      <SwipeMe
+        onSwipeBegin={this.onSwipeBegin}
+        swipeDecoratorStyle={{
+          backgroundColor: color,
+          left: x,
+          top: y,
+          position:'absolute',
+        }} />
+    );
+  }
+
+}
+```
+![swipe example](http://lum.pe/react-native-gesture-recognizers-swiping.gif)
 
 ## Available decorators
 
@@ -72,7 +160,7 @@ Gets called whenever the touch moves.
 `onPanEnd()` `Function`  
 Gets called when the gesture is released or terminated. (The user ended the touch or it was forcefully interrupted)
 
-`panningDecoratorStyle` `Object`  
+`panDecoratorStyle` `Object`  
 A custom style object, which will be applied to the wrapper view.  
 
 `resetPan` `Boolean`  
@@ -114,7 +202,7 @@ Default: `true`
 
 `initialVelocityThreshold` `Number`  
 Defines the initial velocity necessary for the swipe to be registered.  
-Default: `0.8`
+Default: `0.7`
 
 `verticalThreshold` `Number`  
 Defines how far the touch can stray from the x-axis in y-direction when detecting horizontal touches.  
@@ -136,3 +224,7 @@ Gets called when the gesture is released or terminated. (The user ended the touc
 
 `swipeDecoratorStyle` `Object`  
 A custom style object, which will be applied to the wrapper view.  
+
+
+## Planned improvements
+* Allow combination of arbitrary gestures into a single decorator, in order to require less wrapping and being able to use gestures, which would interfere with each when claiming the responder status, side-by-side.
