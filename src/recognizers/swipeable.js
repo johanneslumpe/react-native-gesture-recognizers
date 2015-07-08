@@ -25,7 +25,7 @@ const swipeable = ({
   up = false,
   down = false,
   continuous = true,
-  initialVelocityThreshold = 0.8,
+  initialVelocityThreshold = 0.7,
   verticalThreshold = 10,
   horizontalThreshold = 10,
   setGestureState = true
@@ -171,7 +171,7 @@ const swipeable = ({
         alignSelf: 'flex-start'
       };
 
-      const state = setGestureState ? state : null;
+      const state = setGestureState ? this.state : null;
 
       return (
         <View {...this.panResponder.panHandlers} style={style}>
