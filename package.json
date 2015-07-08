@@ -1,6 +1,6 @@
 {
   "name": "react-native-gesture-recognizers",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Gesture recognizer decorators for react-native",
   "main": "lib/index.js",
   "scripts": {
