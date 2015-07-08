@@ -2,6 +2,12 @@
 
 React Native gesture recognizer decorators. Just decorate your component and easily respond to pans and swipes!
 
+Please report any issues you find!
+
+## Usage
+
+Do an `npm i react-native-gesture-recognizers` and then try out one of the examples below!
+
 ## Basic panning example
 ```javascript
 import React, { Component, Text, View } from 'react-native';
