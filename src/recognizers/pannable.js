@@ -14,7 +14,7 @@ const propTypes = {
   onPan: PropTypes.func,
   onPanEnd: PropTypes.func,
   resetPan: PropTypes.bool,
-  panningDecoratorStyle: PropTypes.object
+  panDecoratorStyle: PropTypes.object
 };
 
 export default ({
@@ -29,6 +29,9 @@ export default ({
 
       this.lastX = 0;
       this.lastY = 0;
+      this.absoluteChangeY = 0;
+      this.absoluteChangeX = 0;
+
       this.state = initialState;
     }
 
@@ -36,6 +39,8 @@ export default ({
       if (nextProps.resetPan) {
         this.lastX = 0;
         this.lastY = 0;
+        this.absoluteChangeY = 0;
+        this.absoluteChangeX = 0;
 
         if (setGestureState) {
           this.setState(initialState);
@@ -75,6 +80,8 @@ export default ({
 
           onPan && onPan(panState); // eslint-disable-line no-unused-expressions
 
+          this.absoluteChangeX = panState.absoluteChangeX;
+          this.absoluteChangeY = panState.absoluteChangeY;
           if (setGestureState) {
             this.setState(panState);
           }
@@ -88,8 +95,8 @@ export default ({
 
     handlePanResponderRelease = () => {
       const { onPanEnd } = this.props;
-      this.lastX = this.state.absoluteChangeX;
-      this.lastY = this.state.absoluteChangeY;
+      this.lastX = this.absoluteChangeX;
+      this.lastY = this.absoluteChangeY;
       onPanEnd && onPanEnd(); // eslint-disable-line no-unused-expressions
     }
 
@@ -99,12 +106,12 @@ export default ({
         onPan,
         onPanEnd,
         resetPan,
-        panningDecoratorStyle,
+        panDecoratorStyle,
         ...props
       } = this.props;
 
       const style = {
-        ...panningDecoratorStyle,
+        ...panDecoratorStyle,
         alignSelf: 'flex-start'
       };
 
