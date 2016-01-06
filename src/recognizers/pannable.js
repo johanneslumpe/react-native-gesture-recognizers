@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { PropTypes, Component, View, PanResponder } from 'react-native';
+import React, { PropTypes, Component, View, PanResponder, Animated } from 'react-native';
 
 const initialState = {
   absoluteChangeX: 0,
@@ -116,9 +116,9 @@ export default ({
       };
 
       return (
-        <View {...this.panResponder.panHandlers} style={style}>
+        <Animated.View {...this.panResponder.panHandlers} style={style}>
           <BaseComponent {...props} {...this.state} />
-        </View>
+        </Animated.View>
       );
     }
   };
