@@ -10,7 +10,7 @@ Do an `npm i react-native-gesture-recognizers` and then try out one of the examp
 
 ## Basic panning example
 ```javascript
-import React, { Component, Text, View } from 'react-native';
+import React, { Component, Text, View, Animated } from 'react-native';
 import { pannable } from 'react-native-gesture-recognizers';
 
 @pannable({
@@ -20,7 +20,7 @@ class PanMe {
 
   render() {
     return (
-      <View style={{width:100, height: 100}}>
+      <View style={{width:100, height: 100, backgroundColor: 'red'}}>
         <Text>Pan me!</Text>
       </View>
     );
@@ -32,16 +32,14 @@ class TransformOnPan extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      transform: [],
+      transform: new Animated.ValueXY(),
     }
   }
 
   onPan = ({ absoluteChangeX, absoluteChangeY }) => {
-    this.setState({
-      transform: [
-        {translateX: absoluteChangeX},
-        {translateY: absoluteChangeY}
-      ]
+    this.state.transform.setValue({
+      x: absoluteChangeX,
+      y: absoluteChangeY,
     });
   }
 
@@ -54,7 +52,7 @@ class TransformOnPan extends Component {
       // due to the wrapping view staying in place and receiving touches
       <PanMe
         onPan={this.onPan}
-        panDecoratorStyle={{transform}} />
+        panDecoratorStyle={{transform: transform.getTranslateTransform()}} />
     );
   }
 }
