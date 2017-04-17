@@ -4,6 +4,6 @@ import pannable from './recognizers/pannable';
 import swipeable from './recognizers/swipeable';
 
 export {
-    panable,
+    pannable,
     swipeable
 }
