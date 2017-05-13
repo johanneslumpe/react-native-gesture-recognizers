@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { PropTypes, Component, View, PanResponder } from 'react-native';
+import React, {Component, PropTypes} from 'react';
+import { View, PanResponder, Animated } from 'react-native';
 import isValidSwipe from '../utils/isValidSwipe';
 
 const directions = {
